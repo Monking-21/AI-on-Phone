@@ -55,7 +55,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 初始化 ApiClient
         ApiClient.init(this)
         
         enableEdgeToEdge()
@@ -77,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         containerColor = MaterialTheme.colorScheme.background,
                         topBar = {
                             SmallTopAppBar(
-                                title = { Text("AI Chat") },
+                                title = { Text("AI On Phone") },
                                 actions = {
                                     IconButton(onClick = { showSettings = true }) {
                                         Icon(
@@ -140,7 +139,6 @@ fun TextInputScreen(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 if (text.isNotBlank()) {
-                    // 使用 coroutineScope 替代 lifecycleScope
                     coroutineScope.launch {
                         messages = messages + Message(text, MessageType.USER)
                         val aiResponse = getAIResponse(text)
@@ -170,18 +168,9 @@ data class Message(
 // 在 getAIResponse 函数中修改 ApiClient 的调用方式
 private suspend fun getAIResponse(userInput: String): String {
     return try {
-        val request = ChatRequest(
-            messages = listOf(
-                ChatMessage(
-                    role = "user",
-                    content = userInput
-                )
-            )
-        )
-
-        val response = ApiClient.service.getChatCompletion(request)
-        response.choices.firstOrNull()?.message?.content ?: "Sorry, I couldn't process that."
+        // ApiClient.sendMessage() 直接返回处理好的字符串
+        ApiClient.sendMessage(userInput)
     } catch (e: Exception) {
-        "Sorry, an error occurred: ${e.message}"
+        "对话出错: ${e.message}"
     }
 }

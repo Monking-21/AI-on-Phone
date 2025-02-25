@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.SmallTopAppBar
+import com.ai.aionphone.data.ApiType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +33,18 @@ fun SettingsScreen(
     
     var showError by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+
+    var selectedApiType by remember {
+            val savedType = sharedPrefs.getString("api_type", ApiType.OPENAI_COMPATIBLE.name)
+            mutableStateOf(
+                when (savedType) {
+                    ApiType.OPENAI_COMPATIBLE.name -> ApiType.OPENAI_COMPATIBLE
+                    ApiType.OLLAMA.name -> ApiType.OLLAMA
+                    ApiType.RAG_FLOW.name -> ApiType.RAG_FLOW
+                    else -> ApiType.OPENAI_COMPATIBLE
+                }
+            )
+        }
 
     Scaffold(
         topBar = {
@@ -62,13 +75,41 @@ fun SettingsScreen(
                 )
             }
 
+            // API 类型选择
+            Text("选择 API 类型:", modifier = Modifier.padding(bottom = 8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ApiType.entries.forEach { apiType ->
+                    FilterChip(
+                        selected = selectedApiType == apiType,
+                        onClick = { 
+                            selectedApiType = apiType
+                            baseUrl = when (apiType) {
+                                ApiType.OPENAI_COMPATIBLE -> "https://api.lkeap.cloud.tencent.com/v1"
+                                ApiType.OLLAMA -> "http://localhost:11434"
+                                ApiType.RAG_FLOW -> "http://localhost:8000"
+                            }
+                        },
+                        label = { 
+                            Text(when (apiType) {
+                                ApiType.OPENAI_COMPATIBLE -> "OpenAI 兼容"
+                                ApiType.OLLAMA -> "Ollama"
+                                ApiType.RAG_FLOW -> "RAG Flow"
+                            })
+                        }
+                    )
+                }
+            }
+
             TextField(
                 value = baseUrl,
-                onValueChange = { 
+                onValueChange = {
                     baseUrl = it
                     showError = false
                 },
-                label = { Text("Base URL (例如: https://api.lkeap.cloud.example.com/v1)") },
+                label = { Text("Base URL (example: https://api.lkeap.cloud.example.com/v1)") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -76,7 +117,7 @@ fun SettingsScreen(
 
             TextField(
                 value = apiKey,
-                onValueChange = { 
+                onValueChange = {
                     apiKey = it
                     showError = false
                 },
@@ -105,6 +146,7 @@ fun SettingsScreen(
 
                         // 保存设置
                         sharedPrefs.edit().apply {
+                            putString("api_type", selectedApiType.name)
                             putString("base_url", baseUrl)
                             putString("api_key", apiKey)
                             commit()
