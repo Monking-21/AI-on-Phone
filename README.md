@@ -119,10 +119,6 @@ cd AIonPhone
 
 This project is under active development. Feedback and suggestions are welcome!
 
-### Repository
-
-[Add your repository URL]
-
 ### Issues
 
 Please report any issues on our GitHub repository's issue tracker.
