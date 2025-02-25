@@ -1,74 +1,129 @@
-# AIonPhone - 移动端大语言模型调用客户端
+# AIonPhone - Mobile LLM Client
 
-## 项目介绍
+[中文文档](README_zh.md)
 
-AIonPhone 是一个 Android 应用程序，旨在让用户能够在手机上方便地调用各种大语言模型 API。支持多种接口类型，包括本地部署的模型和云端服务。
+## Introduction
 
-## 功能特点
+AIonPhone is an Android application designed to enable users to interact with various Large Language Models (LLMs) on their mobile devices. It supports both locally deployed models and cloud services.
 
-- 支持多种 API 类型:
-  - OpenAI 兼容接口 (如腾讯云等)
-  - Ollama 本地部署模型
-  - RAG (检索增强生成) 接口
+## Features
 
-- 灵活的配置选项:
-  - 可自定义服务器地址
-  - API Key 管理
-  - 多种 API 类型切换
+- Multiple API Support:
+  - OpenAI-compatible APIs (e.g., Tencent Cloud)
+  - Ollama Local Models
+  - RAG (Retrieval-Augmented Generation) Interface
 
-- 简洁的用户界面:
-  - 聊天形式的交互
-  - 实时响应
-  - 设置界面易于使用
+- Flexible Configuration:
+  - Custom Server URLs
+  - API Key Management
+  - Multiple API Type Switching
 
-## 技术栈
+- Clean User Interface:
+  - Chat-like Interaction
+  - Real-time Responses
+  - User-friendly Settings
 
-- Kotlin
-- Jetpack Compose UI
-- Retrofit2 网络请求
-- OkHttp3 
-- Material3 设计
-- Coroutines 协程
-- Android Architecture Components
+## Tech Stack
 
-## 使用方法
+- Language: Kotlin
+- UI Framework: Jetpack Compose
+- Networking: Retrofit2, OkHttp3
+- Design System: Material3
+- Concurrency: Kotlin Coroutines
+- Architecture: Android Architecture Components
 
-1. 安装应用后，点击右上角设置图标进入设置界面
-2. 选择需要使用的 API 类型：
-   - OpenAI 兼容：需要填写服务器地址和 API Key
-   - Ollama：填写本地服务器地址（默认 http://localhost:11434）
-   - RAG Flow：填写 RAG 服务器地址
-3. 保存设置后返回主界面
-4. 在输入框中输入问题，点击发送即可开始对话
+## Getting Started
 
-## 本地部署说明
+1. After installation, tap the settings icon in the top-right corner
+2. Choose your preferred API type:
+   - OpenAI Compatible: Requires server URL and API key
+   - Ollama: Set local server URL (default: http://localhost:11434)
+   - RAG Flow: Configure RAG server URL
+3. Save settings and return to main screen
+4. Start chatting by entering your message and tapping send
 
-### Ollama 部署
-1. 在本地机器上安装 Ollama
-2. 启动 Ollama 服务
-3. 在应用中配置 Ollama 服务器地址
+## Local Deployment
 
-### RAG 服务部署
-1. 部署 RAG 服务器
-2. 在应用中配置 RAG 服务器地址
+### Ollama Setup
+```bash
+# Download Ollama
+curl -L https://ollama.com/download/windows > ollama-windows.zip
+unzip ollama-windows.zip
 
-## 注意事项
+# Start Ollama service
+ollama serve
 
-- 使用 OpenAI 兼容接口时，需要有效的 API Key
-- Ollama 服务需要在同一局域网内
-- 确保网络连接稳定
-- 部分功能可能需要特定的权限
+# Pull a model (example)
+ollama pull llama2
+```
 
-## 贡献指南
+### RAG Service Setup
+```bash
+# Clone RAG service repository
+git clone [your-rag-service-repo]
+cd [your-rag-service]
 
-欢迎提交 Issue 和 Pull Request 来完善这个项目。
+# Install dependencies
+pip install -r requirements.txt
 
+# Start service
+python app.py
+```
 
+## Configuration Examples
 
-## 联系方式
+```kotlin
+// OpenAI Compatible
+Base URL: https://api.lkeap.cloud.tencent.com/v1
+API Key: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-hanweiling@outlook.com
+// Ollama
+Base URL: http://localhost:11434
+
+// RAG Flow
+Base URL: http://localhost:8000
+```
+
+## Development Setup
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/AIonPhone.git
+
+# Open in Android Studio or VS Code
+cd AIonPhone
+
+# Build project
+./gradlew build
+```
+
+## Requirements
+
+- Android 6.0 (API level 23) or higher
+- Internet connection
+- Local network access for Ollama
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Contact
+
+<hanweiling@outlook.com>
 
 ---
 
-本项目仍在持续开发中，欢迎提供建议和反馈。
+This project is under active development. Feedback and suggestions are welcome!
+
+### Repository
+
+[Add your repository URL]
+
+### Issues
+
+Please report any issues on our GitHub repository's issue tracker.
+
